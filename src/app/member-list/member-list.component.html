@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h2 class="h2">Members List</h2>
+  <a routerLink="/register-member" class="btn btn-success" *ngIf="hideWhenNoMember">
+    Register Member
+  </a>
+</div>
+
+<div class="pricing-header mx-auto">
+
+  <div class="no-data text-center" *ngIf="preLoader">
+    <img src="assets/preloader.gif" class="preloader-icon" alt="No member">
+  </div>
+
+  <div class="no-data text-center" *ngIf="noData">
+    <img src="assets/no-driver.jpeg" class="nodata-msg" alt="No member">
+    <p class="nodata-msg">No member added yet!</p>
+    <a routerLink="/register-member" class="btn btn-success">
+      Register Member
+    </a>
+  </div>
+
+  <div class="table-responsive" *ngIf="hideWhenNoMember">
+    <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg">
+      <thead>
+        <tr>
+          <th scope="col">Member Id</th>
+          <th scope="col">Member name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Mobile number</th>
+          <th class="text-center" scope="col">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let member of Member | paginate: { itemsPerPage: 7, currentPage: p }; let i = index;">
+          <th scope="row">{{member.$key}}</th>
+          <td>{{member.firstName}} {{member.lastName}}</td>
+          <td>{{member.email}}</td>
+          <td>{{member.mobileNumber}}</td>
+          <td class="text-center action-block">
+            <span class="mr-2 btn btn-outline-primary btn-sm" routerLink="/edit-member/{{member.$key}}">Edit</span>
+            <span class="btn btn-outline-danger btn-sm" (click)="DeleteMember(member)">Delete</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pagination-controls (pageChange)="p = $event" autoHide="true" responsive="true"></pagination-controls>
+</div>
